@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 //https://www.bsidesoft.com/215
 public class Inventory : MonoBehaviour
-{
-    [SerializeField] private ItemManager itemManager;
+{    
     [Header("Inventroy Cargo")]
     [Range(-1, 100)] //-1 = 무한대
     public int itemCargoSize = 10;
@@ -39,12 +38,35 @@ public class Inventory : MonoBehaviour
         foreach (KeyValuePair<int, int> temp in ItemCargo) {
             i++;
             if (i == input) {
-                Debug.Log("Using " + ItemData[temp.Key].getName() + ", left : " + (temp.Value - 1));                
-                //Instantiate()
+                Debug.Log("Using " + ItemData[temp.Key].getName() + ", left : " + (temp.Value - 1));
+                Instantiate(ItemManager.instance.GetItem(ItemData[temp.Key].getName()));
 
                 break;
             }
         }
+    }
+    private void OnTriggerEnter(Collider other) {
+
+        if (other.gameObject.tag == "Item") Debug.Log("touch");
+
+        
+        if (other.gameObject.tag == "Item") {
+            ItemNode tempNode = other.GetComponent<ItemNode>();
+
+            
+            int ItemID = tempNode.ItemID;
+            if (nowCargoSize!=0&&ItemCargo.ContainsKey(ItemID) == true) {
+                ItemCargo[ItemID]++;
+            }
+            else {
+                ItemCargo.Add(ItemID, 1);
+                ItemNode inputNode = tempNode;
+                ItemData.Add(ItemID, inputNode);
+            }
+            nowCargoSize++;
+            Destroy(other.gameObject);
+        }        
+        
     }
 
     private int NumKeyReturn(KeyCode keyInput) {

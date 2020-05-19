@@ -17,14 +17,13 @@ public class ItemManager : MonoBehaviour
         int i = 0;
         foreach (object tp in temp) {
             GameObject tpp = (GameObject)(tp);
-            allItemList.Add(tpp.name, tpp);
+            allItemList.Add(tpp.GetComponent<ItemNode>().ItemName, tpp);
             ItemList[i++] = tpp.name;
         }
 
         if (allItemList.Count == 0) {
             Debug.LogError("아이템 리스트 불러오기 실패!!!!");
         }
-
     }
 
 
@@ -34,12 +33,19 @@ public class ItemManager : MonoBehaviour
                 return temp.Value; 
         }
         foreach (KeyValuePair<string, GameObject> temp in allItemList) {
+            Debug.Log(temp.Key);
             if (temp.Key.Equals(name)) {
                 getItemList.Add(temp.Key,temp.Value);
                 return temp.Value;
             }
         }
-        Debug.LogError("잘못된 아이템을 불러오고 있습니다.\nItemManager.GetItem();");
+        Debug.LogError("잘못된 아이템을 불러오고 있습니다.\n아이템 이름 : "+name+"\nItemManager.GetItem();");
         return null;
     }
+}
+
+public enum ItemType {
+    Normal,         //그냥 아무 기능 없음
+    Instantaneous,  //즉발성 아이템 (회복 등)
+    Throwable       //던질 수 있는 아이템
 }
