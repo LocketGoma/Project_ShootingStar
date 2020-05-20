@@ -25,7 +25,6 @@ public class RoomManager : MonoBehaviour
             Debug.Log(loadData.RoomCount);
             RoomList = new GameObject[loadData.RoomCount];
 
-
             for (int i = 0; i < roomCount; i++) {
                 Instantiate(RoomSample).transform.parent = gameObject.transform; ;
                 RoomList[i] = transform.GetChild(i).gameObject;

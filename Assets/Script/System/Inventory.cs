@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 //https://www.bsidesoft.com/215
 public class Inventory : MonoBehaviour
-{    
+{
+    public static Inventory instance;
     [Header("Inventroy Cargo")]
     [Range(-1, 100)] //-1 = 무한대
     public int itemCargoSize = 10;
     [SerializeField]
     private int nowCargoSize = 0;
-
+    
     Dictionary<int, int> ItemCargo = new Dictionary<int, int>();      //아이템 개수 <key:ItemID,Value:Itemcount>
     Dictionary<int, ItemNode> ItemData = new Dictionary<int, ItemNode>();   //아이템 정보 (아이템 ID를 받으면 아이템 정보를 넘겨줌)
 
@@ -34,22 +35,45 @@ public class Inventory : MonoBehaviour
     public void UseItem(KeyCode keyInput)          //되~게 비효율적인 방법같은데
     {
         int input = NumKeyReturn(keyInput);
-        int i = 0;
-        foreach (KeyValuePair<int, int> temp in ItemCargo) {
-            i++;
+        int i = 1;
+        foreach (KeyValuePair<int, int> temp in ItemCargo) {            
             if (i == input) {
                 Debug.Log("Using " + ItemData[temp.Key].getName() + ", left : " + (temp.Value - 1));
                 Instantiate(ItemManager.instance.GetItem(ItemData[temp.Key].getName()));
+                
+                DecreaseItem(temp.Key);
 
+                nowCargoSize--;
                 break;
             }
+            i++;
         }
-    }
-    private void OnTriggerEnter(Collider other) {
-
-        if (other.gameObject.tag == "Item") Debug.Log("touch");
-
         
+
+    }
+    public int FlushItem(int ItemID) {
+        if (ItemCargo.ContainsKey(ItemID) == true) {
+            ItemCargo.Remove(ItemID);
+            ItemData.Remove(ItemID);
+            
+
+            InventoryUI.instance.ItemListUpdate(ItemCargo);
+
+            return ItemID;
+        }
+
+        return -1;
+    }
+    private int DecreaseItem(int ItemID) {
+        InventoryUI.instance.ItemCountUpdate(ItemID, ItemCargo[ItemID]-1);
+        if (ItemCargo[ItemID] == 1) {                 
+            return FlushItem(ItemID);
+        }
+        return ItemCargo[ItemID]--;
+    }
+
+
+    private void OnTriggerEnter(Collider other) {                
         if (other.gameObject.tag == "Item") {
             ItemNode tempNode = other.GetComponent<ItemNode>();
 
@@ -64,9 +88,11 @@ public class Inventory : MonoBehaviour
                 ItemData.Add(ItemID, inputNode);
             }
             nowCargoSize++;
+            InventoryUI.instance.ItemListUpdate(ItemCargo);
             Destroy(other.gameObject);
-        }        
+        }
         
+
     }
 
     private int NumKeyReturn(KeyCode keyInput) {

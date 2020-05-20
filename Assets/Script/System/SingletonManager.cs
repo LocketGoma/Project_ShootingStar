@@ -8,7 +8,8 @@ public class SingletonManager : MonoBehaviour
 
     [SerializeField] ItemManager itemManager = null;
     [SerializeField] RoomManager roomManager = null;
-
+    [SerializeField] InventoryUI inventoryUI = null;
+    [SerializeField] Inventory inventory = null;
 
 
     private void Awake() {
@@ -16,6 +17,8 @@ public class SingletonManager : MonoBehaviour
 
         ItemManager.instance = itemManager;
         RoomManager.instance = roomManager;
+        InventoryUI.instance = inventoryUI;
+        Inventory.instance = inventory;
 
     }
 

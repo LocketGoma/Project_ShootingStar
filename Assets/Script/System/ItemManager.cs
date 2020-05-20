@@ -6,16 +6,21 @@ public class ItemManager : MonoBehaviour
 {
     public static ItemManager instance;
     [SerializeField] private string[] ItemList;
+    [SerializeField] private int itemListCount;
 
     Dictionary<string, GameObject> allItemList = new Dictionary<string, GameObject>();      //현존하는 아이템 리스트 전부 Load
     Dictionary<string, GameObject> getItemList = new Dictionary<string, GameObject>();      //먹었던 아이템 리스트
+    public int ItemListCount { get { return itemListCount; } }
+    private object[] ItemObjects;
 
-
-    public void Start() {
-        object[] temp = Resources.LoadAll("Prefab/Items");
-        ItemList = new string[temp.Length];
+    private void Awake() {
+        ItemObjects = Resources.LoadAll("Prefab/Items");
+        itemListCount = ItemObjects.Length;
+        ItemList = new string[ItemObjects.Length];
+    }
+    private void Start() {
         int i = 0;
-        foreach (object tp in temp) {
+        foreach (object tp in ItemObjects) {
             GameObject tpp = (GameObject)(tp);
             allItemList.Add(tpp.GetComponent<ItemNode>().ItemName, tpp);
             ItemList[i++] = tpp.name;

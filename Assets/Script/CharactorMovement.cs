@@ -36,8 +36,10 @@ public class CharactorMovement : MonoBehaviour
         transform.Translate(moveX, 0f, moveZ);
 
         if (Input.GetKeyUp(KeyCode.Space)) {
-            anim.Play("JUMP01", -1, 0f);
-            Invoke("JumpAction", 0.5f);
+            anim.Play("JUMP01B", -1, 0f);
+            //Invoke("JumpAction", 0.5f);
+            JumpAction();
+            Invoke("JumpRelease", 1f);
         }
         
     }
@@ -51,12 +53,14 @@ public class CharactorMovement : MonoBehaviour
     private void OnTriggerEnter(Collider other) {
         Debug.Log(other.gameObject.tag);
        // if (other.gameObject.tag == "Room")
-            jump = false;
+       jump = false;
     }
     private void JumpAction() {
-        gameObject.GetComponentInChildren<Rigidbody>().AddForce(Vector3.up * speed * gameObject.GetComponentInChildren<Rigidbody>().mass, ForceMode.Impulse);
-        
+        gameObject.GetComponentInChildren<Rigidbody>().AddForce(Vector3.up * speed * gameObject.GetComponentInChildren<Rigidbody>().mass, ForceMode.Impulse);        
         jump = true;
+    }
+    private void JumpRelease() {
+        jump = false;
     }
 
 }
