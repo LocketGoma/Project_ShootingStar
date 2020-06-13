@@ -34,6 +34,7 @@ public class CharactorMovement : MonoBehaviour
         float moveZ = ReduceBackMovement(inputV) * speed * Time.deltaTime;
 
         transform.Translate(moveX, 0f, moveZ);
+        transform.rotation = Quaternion.Euler(0,transform.GetChild(1).transform.rotation.eulerAngles.y,0);
 
         if (Input.GetKeyUp(KeyCode.Space)) {
             anim.Play("JUMP01B", -1, 0f);
