@@ -10,6 +10,7 @@ public class SingletonManager : MonoBehaviour
     [SerializeField] RoomManager roomManager = null;
     [SerializeField] InventoryUI inventoryUI = null;
     [SerializeField] Inventory inventory = null;
+    [SerializeField] PlayerControl playerControl = null;
 
 
     private void Awake() {
@@ -19,6 +20,7 @@ public class SingletonManager : MonoBehaviour
         RoomManager.instance = roomManager;
         InventoryUI.instance = inventoryUI;
         Inventory.instance = inventory;
+        PlayerControl.instance = playerControl;
 
     }
 

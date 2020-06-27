@@ -11,7 +11,6 @@ public class ItemNode : MonoBehaviour {
     public int ItemID { get { return itemID; } }
     public string ItemName { get { return itemName; } }
     public ItemType GetItemType() { return itemType; }
-
     public string getName() { return ItemName; }   
     
 }

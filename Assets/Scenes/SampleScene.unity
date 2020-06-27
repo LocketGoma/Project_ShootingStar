@@ -1122,6 +1122,7 @@ GameObject:
   - component: {fileID: 1161091542}
   - component: {fileID: 1161091543}
   - component: {fileID: 1161091544}
+  - component: {fileID: 1161091545}
   m_Layer: 0
   m_Name: Charactor
   m_TagString: Untagged
@@ -1190,6 +1191,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemCargoSize: 10
   nowCargoSize: 0
+--- !u!114 &1161091545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1161091540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e21e3673cac61f64bb6cae15c2f61540, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bullet: {fileID: 0}
+  inventory: {fileID: 0}
+  maxPower: 50
+  minPower: 10
+  powerChargeTime: 2
+  power: 1
+  text: {fileID: 0}
+  autoCharge: 0
 --- !u!1 &1266113587 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100338, guid: 49f2055d53eeb4e5a92af590a44bddee,
@@ -1756,6 +1777,7 @@ MonoBehaviour:
   roomManager: {fileID: 1013343323}
   inventoryUI: {fileID: 1561377462}
   inventory: {fileID: 1161091544}
+  playerControl: {fileID: 1161091545}
 --- !u!4 &2009174029 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1938820336727694267, guid: 79b8b4bf1e34a4a4c860118cd157bb5f,

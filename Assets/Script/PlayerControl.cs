@@ -6,7 +6,11 @@ using UnityEngine.UI;
 
 public class PlayerControl : MonoBehaviour
 {
+    public static PlayerControl instance;
+
     [SerializeField] private GameObject bullet;
+    [SerializeField] private Inventory inventory;
+
     [Range(1f, 100f)]
     public float maxPower;
     [Range(1f, 25f)]
@@ -22,8 +26,8 @@ public class PlayerControl : MonoBehaviour
 
     private void Start() {
         power = minPower;
-        text.text = power.ToString();
-
+       // text.text = power.ToString();
+        inventory = Inventory.instance;
 
 
     }
@@ -37,7 +41,7 @@ public class PlayerControl : MonoBehaviour
             if (power > maxPower || autoCharge)
                 power = maxPower;
 
-            text.text = power.ToString();
+            //text.text = power.ToString();
         }
 
         if (Input.GetKeyDown(KeyCode.LeftControl)) {
@@ -46,16 +50,23 @@ public class PlayerControl : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.LeftControl)) {
             autoCharge = false;
         }
-
         if (Input.GetMouseButtonUp(0)) {
             ShootBullet();
             power = minPower;
         }
     }
+    public void UseSetItem(GameObject Items) {
+        bullet = Items;
+    }
+
 
     void ShootBullet() {
-        Debug.Log("shoot");
-        Instantiate(bullet, transform.position, transform.rotation).GetComponent<Rigidbody>().AddForce(transform.GetComponentInChildren<CrosshairCustom>().getTargetVector() * power, ForceMode.Impulse);
+        if (bullet != null) {
+            Debug.Log("shoot");            
+            Instantiate(bullet, transform.GetChild(1).transform.position, transform.rotation).GetComponent<Rigidbody>().AddForce(transform.GetComponentInChildren<CrosshairCustom>().getTargetVector() * power, ForceMode.Impulse);
+
+            bullet = null;
+        }
     }
     
 

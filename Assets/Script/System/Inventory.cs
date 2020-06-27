@@ -14,7 +14,6 @@ public class Inventory : MonoBehaviour
     Dictionary<int, int> ItemCargo = new Dictionary<int, int>();      //아이템 개수 <key:ItemID,Value:Itemcount>
     Dictionary<int, ItemNode> ItemData = new Dictionary<int, ItemNode>();   //아이템 정보 (아이템 ID를 받으면 아이템 정보를 넘겨줌)
 
-
     // Update is called once per frame
     void Update()
     {
@@ -39,8 +38,10 @@ public class Inventory : MonoBehaviour
         foreach (KeyValuePair<int, int> temp in ItemCargo) {            
             if (i == input) {
                 Debug.Log("Using " + ItemData[temp.Key].getName() + ", left : " + (temp.Value - 1));
-                Instantiate(ItemManager.instance.GetItem(ItemData[temp.Key].getName()));
-                
+                //Instantiate(ItemManager.instance.GetItem(ItemData[temp.Key].getName()));
+                if (ItemData[temp.Key].GetItemType() == ItemType.Throwable) {
+                    PlayerControl.instance.UseSetItem(ItemManager.instance.GetItem(ItemData[temp.Key].ItemName));
+                }
                 DecreaseItem(temp.Key);
 
                 nowCargoSize--;
@@ -48,8 +49,6 @@ public class Inventory : MonoBehaviour
             }
             i++;
         }
-        
-
     }
     public int FlushItem(int ItemID) {
         if (ItemCargo.ContainsKey(ItemID) == true) {
@@ -63,8 +62,9 @@ public class Inventory : MonoBehaviour
         }
 
         return -1;
-    }
+    }    
     private int DecreaseItem(int ItemID) {
+
         InventoryUI.instance.ItemCountUpdate(ItemID, ItemCargo[ItemID]-1);
         if (ItemCargo[ItemID] == 1) {                 
             return FlushItem(ItemID);
