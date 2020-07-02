@@ -39,7 +39,7 @@ public class CharactorMovement : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.Space)) {
             anim.Play("JUMP01B", -1, 0f);
             //Invoke("JumpAction", 0.5f);
-            JumpAction();
+            //JumpAction();   -- 캐릭터 빠져 있어서 작동 안됨 
             Invoke("JumpRelease", 1f);
         }
         
